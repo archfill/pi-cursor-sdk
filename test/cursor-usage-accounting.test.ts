@@ -255,17 +255,9 @@ describe("cursor usage accounting", () => {
 		expect(partial.usage.totalTokens).toBeGreaterThan(partial.usage.input + partial.usage.output);
 	});
 
-	it("floors approximate totalTokens at the last accepted assistant occupancy", () => {
+	it("floors approximate totalTokens to a nearby last accepted occupancy for split-tool stability", () => {
 		const model = makeModel();
 		const prior = makeAssistantMessage([{ type: "text", text: "Prior." }]);
-		prior.usage = {
-			input: 10_000,
-			output: 50,
-			cacheRead: 40_000,
-			cacheWrite: 100,
-			totalTokens: 50_150,
-			cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0, total: 0 },
-		};
 		const context: Context = {
 			systemPrompt: "Be helpful.",
 			messages: [
@@ -275,9 +267,48 @@ describe("cursor usage accounting", () => {
 			],
 		};
 		const partial = makeAssistantMessage([{ type: "text", text: "Hi." }]);
+		const estimate = estimateCursorContextTotalTokens(partial, model, context);
+		const nearbyFloor = Math.ceil(estimate * 1.1);
+		prior.usage = {
+			input: nearbyFloor - 50,
+			output: 50,
+			cacheRead: 0,
+			cacheWrite: 0,
+			totalTokens: nearbyFloor,
+			cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0, total: 0 },
+		};
 		applyCursorUsage(partial, model, context, 7);
 		expect(partial.usage.cacheRead).toBe(0);
-		expect(partial.usage.totalTokens).toBeGreaterThanOrEqual(50_150);
+		expect(partial.usage.totalTokens).toBe(nearbyFloor);
+	});
+
+	it("drops a last accepted occupancy far above the replayable estimate", () => {
+		// A post-compaction assistant can still carry an occupancy that passes the tokensBefore
+		// filter but is far above what the current replayable context holds; flooring to it pins
+		// the footer at a stale high-water mark (#204).
+		const model = makeModel();
+		const kept = makeAssistantMessage([{ type: "text", text: "Kept." }]);
+		kept.usage = {
+			input: 118_950,
+			output: 50,
+			cacheRead: 0,
+			cacheWrite: 0,
+			totalTokens: 119_000,
+			cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0, total: 0 },
+		};
+		const context: Context = {
+			systemPrompt: "Be helpful.",
+			messages: [
+				{ role: "compactionSummary", summary: "compacted", tokensBefore: 120_000, timestamp: 1 } as unknown as Context["messages"][number],
+				kept,
+				{ role: "user", content: "Again", timestamp: 3 },
+			],
+		};
+		const partial = makeAssistantMessage([{ type: "text", text: "Hi." }]);
+		const estimate = estimateCursorContextTotalTokens(partial, model, context);
+		expect(estimate).toBeLessThan(119_000 / 1.5);
+		applyCursorUsage(partial, model, context, 7);
+		expect(partial.usage.totalTokens).toBe(estimate);
 	});
 
 	it("never uses billed spend as occupancy, including in-window cloud billed rows", () => {

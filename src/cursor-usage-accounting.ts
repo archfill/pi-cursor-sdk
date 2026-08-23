@@ -129,6 +129,15 @@ function isCompatibleCursorAssistantMeasurement(assistant: AssistantMessage, mod
 	return assistant.api === model.api && assistant.provider === model.provider && assistant.model === model.id;
 }
 
+function readAssistantOccupancy(assistant: AssistantMessage, model: Model<Api>): number | undefined {
+	if (assistant.stopReason === "aborted" || assistant.stopReason === "error" || !assistant.usage) return undefined;
+	if (!isCompatibleCursorAssistantMeasurement(assistant, model)) return undefined;
+	const { usage } = assistant;
+	const total = usage.totalTokens || usage.input + usage.output + usage.cacheRead + usage.cacheWrite;
+	if (!(Number.isFinite(total) && total > 0 && total <= model.contextWindow)) return undefined;
+	return total;
+}
+
 function getLatestCompactionBoundary(context: Context): { index: number; tokensBefore?: number } | undefined {
 	for (let index = context.messages.length - 1; index >= 0; index -= 1) {
 		const message = context.messages[index] as { role?: string; tokensBefore?: number };
@@ -142,23 +151,41 @@ function getLatestCompactionBoundary(context: Context): { index: number; tokensB
 	return undefined;
 }
 
+/**
+ * Last accepted occupancy for approximate flooring.
+ *
+ * Only assistants after the latest `compactionSummary` are eligible. Split-turn keep can retain
+ * pre-compaction `totalTokens` on those assistants (#204); drop any measurement at or above that
+ * summary's `tokensBefore` high-water mark so the footer can fall after compact.
+ */
 function getLastAcceptedContextOccupancy(context: Context, model: Model<Api>): number {
-	const boundary = getLatestCompactionBoundary(context);
+	let latestCompactionIndex = -1;
+	let compactionTokensBefore: number | undefined;
 	for (let index = context.messages.length - 1; index >= 0; index -= 1) {
-		if (boundary && index < boundary.index) break;
+		const record = asRecord(context.messages[index]);
+		if (record?.role !== "compactionSummary") continue;
+		latestCompactionIndex = index;
+		const tokensBefore = getNonNegativeTokenCount(record, "tokensBefore");
+		if (tokensBefore !== undefined) compactionTokensBefore = tokensBefore;
+		break;
+	}
+
+	for (let index = context.messages.length - 1; index > latestCompactionIndex; index -= 1) {
 		const message = context.messages[index];
-		if (message.role !== "assistant" || !("usage" in message)) continue;
-		const assistant = message as AssistantMessage;
-		if (assistant.stopReason === "aborted" || assistant.stopReason === "error" || !assistant.usage) continue;
-		if (!isCompatibleCursorAssistantMeasurement(assistant, model)) continue;
-		const { usage } = assistant;
-		const total =
-			usage.totalTokens || usage.input + usage.output + usage.cacheRead + usage.cacheWrite;
-		if (!Number.isFinite(total) || total <= 0 || total > model.contextWindow) continue;
-		if (boundary?.tokensBefore !== undefined && total >= boundary.tokensBefore) continue;
+		if (!message || typeof message !== "object" || !("role" in message) || message.role !== "assistant") continue;
+		const total = readAssistantOccupancy(message as AssistantMessage, model);
+		if (total === undefined) continue;
+		if (compactionTokensBefore !== undefined && total >= compactionTokensBefore) continue;
 		return total;
 	}
 	return 0;
+}
+
+/** Split-turn floors only when the prior occupancy is near the replayable estimate (#196, #204). */
+function occupancyFloorNearEstimate(estimate: number, floor: number): number {
+	if (floor <= 0) return 0;
+	if (estimate <= 0) return floor;
+	return floor <= Math.ceil(estimate * 1.1) ? floor : 0;
 }
 
 export function applyCursorApproximateUsage(partial: AssistantMessage, model: Model<Api>, context: Context, sessionInputTokens: number): void {
@@ -167,19 +194,15 @@ export function applyCursorApproximateUsage(partial: AssistantMessage, model: Mo
 	partial.usage.output = outputTokens;
 	partial.usage.cacheRead = 0;
 	partial.usage.cacheWrite = 0;
-	// Never report less occupancy than the last compatible same-model in-window assistant measurement.
-	partial.usage.totalTokens = Math.max(
-		partial.usage.input + partial.usage.output,
-		estimateCursorContextTotalTokens(partial, model, context),
-		getLastAcceptedContextOccupancy(context, model),
-	);
+	const estimate = estimateCursorContextTotalTokens(partial, model, context);
+	const occupancyFloor = occupancyFloorNearEstimate(estimate, getLastAcceptedContextOccupancy(context, model));
+	partial.usage.totalTokens = Math.max(partial.usage.input + partial.usage.output, estimate, occupancyFloor);
 }
 
 function applyCursorOccupancyEstimate(partial: AssistantMessage, model: Model<Api>, context: Context): void {
-	partial.usage.totalTokens = Math.max(
-		estimateCursorContextTotalTokens(partial, model, context),
-		getLastAcceptedContextOccupancy(context, model),
-	);
+	const estimate = estimateCursorContextTotalTokens(partial, model, context);
+	const occupancyFloor = occupancyFloorNearEstimate(estimate, getLastAcceptedContextOccupancy(context, model));
+	partial.usage.totalTokens = Math.max(estimate, occupancyFloor);
 }
 
 function isCurrentLocalOccupancy(turn: CursorSdkTurnUsage, model: Model<Api>, context: Context): boolean {
