@@ -60,6 +60,7 @@ import type {
 	LocalCursorProviderTurnPrepareResult,
 } from "./cursor-provider-turn-types.js";
 import type { CursorSdkEventDebugSink } from "./cursor-sdk-event-debug.js";
+import { consumePostCompactionBootstrapRequired } from "./cursor-post-compaction-bootstrap.js";
 import type { SessionCursorAgentLease } from "./cursor-session-agent.js";
 
 export interface PrepareCursorProviderTurnParams {
@@ -311,7 +312,15 @@ async function prepareCursorLocalProviderTurn(
 				}),
 			};
 		};
-		let sendPlan = planCursorSessionSend(sessionAgentLease.sendState, context);
+		const forcePostCompactionBootstrap = consumePostCompactionBootstrapRequired(sessionAgentScopeKey);
+		if (forcePostCompactionBootstrap) {
+			sessionAgentLease.sendState.bootstrapped = false;
+			sessionAgentLease.sendState.contextFingerprint = "";
+			sessionAgentLease.sendState.incrementalSendCount = 0;
+		}
+		let sendPlan = planCursorSessionSend(sessionAgentLease.sendState, context, {
+			forcePostCompactionBootstrap,
+		});
 		if (sessionAgentLease.created && sessionAgentLease.resumed && sendPlan.mode === "incremental") {
 			sendPlan = { mode: "bootstrap", resetAgent: false, reason: "process_resume" };
 		}

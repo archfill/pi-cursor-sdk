@@ -13,7 +13,7 @@ export const MAX_COMPLETED_INCREMENTAL_SENDS_BEFORE_REBOOTSTRAP = 20;
 
 export type CursorSessionSendMode = "bootstrap" | "incremental";
 
-export type CursorSessionSendReason = "initial" | "context_divergence" | "incremental_threshold" | "process_resume" | "incremental";
+export type CursorSessionSendReason = "initial" | "context_divergence" | "incremental_threshold" | "process_resume" | "post_compaction" | "incremental";
 
 export interface CursorSessionSendPlan {
 	mode: CursorSessionSendMode;
@@ -21,7 +21,18 @@ export interface CursorSessionSendPlan {
 	reason: CursorSessionSendReason;
 }
 
-export function planCursorSessionSend(sendState: SessionCursorAgentSendState, context: Context): CursorSessionSendPlan {
+export interface PlanCursorSessionSendOptions {
+	forcePostCompactionBootstrap?: boolean;
+}
+
+export function planCursorSessionSend(
+	sendState: SessionCursorAgentSendState,
+	context: Context,
+	options?: PlanCursorSessionSendOptions,
+): CursorSessionSendPlan {
+	if (options?.forcePostCompactionBootstrap) {
+		return { mode: "bootstrap", resetAgent: false, reason: "post_compaction" };
+	}
 	if (!sendState.bootstrapped) {
 		return { mode: "bootstrap", resetAgent: false, reason: "initial" };
 	}

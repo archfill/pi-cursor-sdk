@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
 import type { ExtensionAPI, SessionEntry } from "@earendil-works/pi-coding-agent";
+import { markPostCompactionBootstrapRequired } from "./cursor-post-compaction-bootstrap.js";
 import type { SessionCursorAgentSendState } from "./cursor-session-agent.js";
 import { asRecord } from "./cursor-record-utils.js";
 import { getCursorSessionScopeKey } from "./cursor-session-scope.js";
@@ -466,12 +467,14 @@ export function registerCursorSessionAgentResume(pi: CursorSessionAgentResumeExt
 		const branch = ctx.sessionManager.getBranch();
 		if (branch.length > 0) {
 			restoreFromSessionManager(ctx.sessionManager);
+			markPostCompactionBootstrapRequired(state.scopeKey);
 			return;
 		}
 		state.activeHandle = undefined;
 		state.lastBranchHandle = undefined;
 		state.compactionGeneration += 1;
 		state.branchPathHash = hashBranchStep(state.branchPathHash, event.compactionEntry);
+		markPostCompactionBootstrapRequired(state.scopeKey);
 	});
 }
 

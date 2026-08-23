@@ -67,6 +67,29 @@ describe("cursor-session-send-policy", () => {
 		});
 	});
 
+
+	it("forces bootstrap after compaction even when send state is incremental-ready", () => {
+		const priorContext: Context = {
+			messages: [{ role: "user", content: "Hello", timestamp: 1 }],
+		};
+		const context: Context = {
+			messages: [
+				{ role: "user", content: "Hello", timestamp: 1 },
+				{ role: "user", content: "Follow up", timestamp: 2 },
+			],
+		};
+		const sendState = {
+			bootstrapped: true,
+			contextFingerprint: computeCursorContextFingerprint(priorContext),
+			incrementalSendCount: 1,
+		};
+
+		expect(planCursorSessionSend(sendState, context, { forcePostCompactionBootstrap: true })).toEqual({
+			mode: "bootstrap",
+			resetAgent: false,
+			reason: "post_compaction",
+		});
+	});
 	it("plans context-divergence bootstrap with agent reset", () => {
 		const priorContext: Context = {
 			messages: [{ role: "user", content: "Hello", timestamp: 1 }],
