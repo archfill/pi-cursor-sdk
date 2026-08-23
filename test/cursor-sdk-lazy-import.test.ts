@@ -71,13 +71,20 @@ function collectRuntimeSdkEdges(paths: string[] = sourceFiles(join(process.cwd()
 		const visit = (node: ts.Node): void => {
 			if (ts.isImportDeclaration(node) && importHasRuntimeBindings(node, false)) {
 				const specifier = moduleText(node);
-				if (specifier && isCursorSdkSpecifier(specifier)) {
+			if (specifier && isCursorSdkSpecifier(specifier)) {
+				// Fork deviation (#228): pi's extension loader resolves bare specifiers only
+				// through the static import graph, so the runtime loader itself must import
+				// the SDK statically. Every other file keeps the lazy-boundary contract.
+				if (!relativePath.endsWith("src/cursor-sdk-runtime.ts")) {
 					offenders.push(`${relativePath}:${source.getLineAndCharacterOfPosition(node.getStart()).line + 1}: runtime import ${specifier}`);
 				}
+			}
 				if (specifier?.startsWith("@modelcontextprotocol/sdk/") && !relativePath.endsWith("src/cursor-pi-tool-bridge-run.ts")) {
 					offenders.push(`${relativePath}:${source.getLineAndCharacterOfPosition(node.getStart()).line + 1}: runtime import ${specifier}`);
 				}
-				if (specifier === "./cursor-pi-tool-bridge-run.js") {
+				if (specifier === "./cursor-pi-tool-bridge-run.js" && !relativePath.endsWith("src/cursor-pi-tool-bridge-server.ts")) {
+					// Fork deviation (#228): same as above — the bridge run module and its MCP
+					// imports must join the static graph through the bridge server.
 					offenders.push(`${relativePath}:${source.getLineAndCharacterOfPosition(node.getStart()).line + 1}: runtime import bridge run implementation`);
 				}
 			}
@@ -638,7 +645,10 @@ describe("Cursor SDK lazy runtime imports", () => {
 		expect(findings).toContain("unresolved relative dynamic import ./missing.js");
 	});
 
-	it("serves a warm model catalog without evaluating @cursor/sdk", async () => {
+	// Fork deviation (#228): loadCursorSdk binds the SDK statically under pi, so a warm
+	// cached discovery still evaluates the (mocked) SDK module. The network-free warm
+	// path itself is covered by model-discovery-cache tests.
+	it.skip("serves a warm model catalog without evaluating @cursor/sdk", async () => {
 		tmpAgentDir = mkdtempSync(join(tmpdir(), "pi-cursor-sdk-lazy-import-"));
 		process.env = { ...originalEnv, PI_CODING_AGENT_DIR: tmpAgentDir, CURSOR_API_KEY: "warm-cache-key" };
 		const model: ModelListItem = {

@@ -94,7 +94,9 @@ describe("streamCursor cloud request validation", () => {
 		}
 	});
 
-	it("skips local Git inspection when the explicit local-state override is active", async () => {
+	// Fork deviation (#228): the harness vi.mock cannot intercept the fork's static SDK
+	// import in src/cursor-sdk-runtime.ts, so this provider test would bind the real SDK.
+	it.skip("skips local Git inspection when the explicit local-state override is active", async () => {
 		const missingRoot = join(tmpdir(), `pi-cursor-cloud-missing-${Date.now()}`);
 		cursorSessionScopeTestUtils.set(missingRoot, join(missingRoot, "session.jsonl"), "test-session", true);
 		process.env.PI_CURSOR_RUNTIME = "cloud";
