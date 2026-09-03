@@ -70,19 +70,19 @@ describe("Cursor ripgrep path", () => {
 		}
 	});
 
-	it("locks installed @cursor/sdk 1.0.27 Agent.create ripgrep contract", () => {
+	it("locks installed @cursor/sdk 1.0.30 Agent.create ripgrep contract", () => {
 		const require = createRequire(import.meta.url);
 		const sdkEntry = require.resolve("@cursor/sdk");
 		const sdkRoot = join(dirname(sdkEntry), "..", "..");
 		const sdkPackage = JSON.parse(readFileSync(join(sdkRoot, "package.json"), "utf8")) as { version: string };
-		expect(sdkPackage.version).toBe("1.0.27");
+		expect(sdkPackage.version).toBe("1.0.30");
 
 		// Agent.create lives in the local-runtime chunk (esm/357.js beside cjs entry's sibling esm).
 		const bundle = readFileSync(join(sdkRoot, "dist", "esm", "357.js"), "utf8");
 
 		// Absolute CURSOR_RIPGREP_PATH wins; otherwise platform-package lookup, then PATH, then configure.
 		expect(bundle).toContain(
-			"CURSOR_RIPGREP_PATH;O=z&&(0,a.isAbsolute)(z)?z:(0,N.hQ)({binaryName:B,excludedWorkspaceDir:E}),O||(O=(0,P.resolveRipgrepFromPath)()),O&&(0,P.configureRipgrepPath)(O)",
+			"CURSOR_RIPGREP_PATH;M=W&&(0,a.isAbsolute)(W)?W:(0,F.hQ)({binaryName:z,excludedWorkspaceDir:E}),M||(M=(0,I.resolveRipgrepFromPath)()),M&&(0,I.configureRipgrepPath)(M)",
 		);
 		expect(bundle).toContain("resolveRipgrepFromPath");
 		expect(bundle).toContain("excludedWorkspaceDir");

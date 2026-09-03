@@ -1,63 +1,9 @@
 import type { ModelListItem } from "@cursor/sdk";
 
-// Generated with @cursor/sdk@1.0.27 from 37 Cursor models.
+// Generated with @cursor/sdk@1.0.30 from 38 Cursor models.
 // Refresh with: npm run refresh:cursor-snapshots -- --write
 // Do not add secrets; this file stores public model metadata only.
 export const FALLBACK_MODEL_ITEMS = [
-	{
-		id: "auto-smart",
-		displayName: "Auto",
-		parameters: [
-			{
-				id: "optimize_for",
-				displayName: "Optimize For",
-				values: [
-					{
-						value: "intelligence",
-						displayName: "Intelligence"
-					},
-					{
-						value: "balanced",
-						displayName: "Balance"
-					},
-					{
-						value: "cost",
-						displayName: "Cost"
-					}
-				]
-			}
-		],
-		variants: [
-			{
-				params: [
-					{
-						id: "optimize_for",
-						value: "intelligence"
-					}
-				],
-				displayName: "Auto Intelligence"
-			},
-			{
-				params: [
-					{
-						id: "optimize_for",
-						value: "balanced"
-					}
-				],
-				displayName: "Auto Balance",
-				isDefault: true
-			},
-			{
-				params: [
-					{
-						id: "optimize_for",
-						value: "cost"
-					}
-				],
-				displayName: "Auto Cost"
-			}
-		]
-	},
 	{
 		id: "claude-fable-5",
 		displayName: "Claude Fable 5",
@@ -461,6 +407,410 @@ export const FALLBACK_MODEL_ITEMS = [
 					}
 				],
 				displayName: "Claude Fable 5"
+			}
+		]
+	},
+	{
+		id: "claude-fable-5-1",
+		displayName: "Claude Fable 5.1",
+		aliases: [
+			"fable-5-1"
+		],
+		parameters: [
+			{
+				id: "thinking",
+				displayName: "Thinking",
+				values: [
+					{
+						value: "false"
+					},
+					{
+						value: "true"
+					}
+				]
+			},
+			{
+				id: "context",
+				displayName: "Context",
+				values: [
+					{
+						value: "300k",
+						displayName: "300K"
+					},
+					{
+						value: "1m",
+						displayName: "1M"
+					}
+				]
+			},
+			{
+				id: "effort",
+				displayName: "Effort",
+				values: [
+					{
+						value: "low",
+						displayName: "Low"
+					},
+					{
+						value: "medium",
+						displayName: "Medium"
+					},
+					{
+						value: "high",
+						displayName: "High"
+					},
+					{
+						value: "xhigh",
+						displayName: "Extra High"
+					},
+					{
+						value: "max",
+						displayName: "Max"
+					}
+				]
+			}
+		],
+		variants: [
+			{
+				params: [
+					{
+						id: "thinking",
+						value: "false"
+					},
+					{
+						id: "context",
+						value: "300k"
+					},
+					{
+						id: "effort",
+						value: "low"
+					}
+				],
+				displayName: "Claude Fable 5.1"
+			},
+			{
+				params: [
+					{
+						id: "thinking",
+						value: "false"
+					},
+					{
+						id: "context",
+						value: "300k"
+					},
+					{
+						id: "effort",
+						value: "medium"
+					}
+				],
+				displayName: "Claude Fable 5.1"
+			},
+			{
+				params: [
+					{
+						id: "thinking",
+						value: "false"
+					},
+					{
+						id: "context",
+						value: "300k"
+					},
+					{
+						id: "effort",
+						value: "high"
+					}
+				],
+				displayName: "Claude Fable 5.1"
+			},
+			{
+				params: [
+					{
+						id: "thinking",
+						value: "false"
+					},
+					{
+						id: "context",
+						value: "300k"
+					},
+					{
+						id: "effort",
+						value: "xhigh"
+					}
+				],
+				displayName: "Claude Fable 5.1"
+			},
+			{
+				params: [
+					{
+						id: "thinking",
+						value: "false"
+					},
+					{
+						id: "context",
+						value: "300k"
+					},
+					{
+						id: "effort",
+						value: "max"
+					}
+				],
+				displayName: "Claude Fable 5.1"
+			},
+			{
+				params: [
+					{
+						id: "thinking",
+						value: "false"
+					},
+					{
+						id: "context",
+						value: "1m"
+					},
+					{
+						id: "effort",
+						value: "low"
+					}
+				],
+				displayName: "Claude Fable 5.1"
+			},
+			{
+				params: [
+					{
+						id: "thinking",
+						value: "false"
+					},
+					{
+						id: "context",
+						value: "1m"
+					},
+					{
+						id: "effort",
+						value: "medium"
+					}
+				],
+				displayName: "Claude Fable 5.1"
+			},
+			{
+				params: [
+					{
+						id: "thinking",
+						value: "false"
+					},
+					{
+						id: "context",
+						value: "1m"
+					},
+					{
+						id: "effort",
+						value: "high"
+					}
+				],
+				displayName: "Claude Fable 5.1"
+			},
+			{
+				params: [
+					{
+						id: "thinking",
+						value: "false"
+					},
+					{
+						id: "context",
+						value: "1m"
+					},
+					{
+						id: "effort",
+						value: "xhigh"
+					}
+				],
+				displayName: "Claude Fable 5.1"
+			},
+			{
+				params: [
+					{
+						id: "thinking",
+						value: "false"
+					},
+					{
+						id: "context",
+						value: "1m"
+					},
+					{
+						id: "effort",
+						value: "max"
+					}
+				],
+				displayName: "Claude Fable 5.1"
+			},
+			{
+				params: [
+					{
+						id: "thinking",
+						value: "true"
+					},
+					{
+						id: "context",
+						value: "300k"
+					},
+					{
+						id: "effort",
+						value: "low"
+					}
+				],
+				displayName: "Claude Fable 5.1"
+			},
+			{
+				params: [
+					{
+						id: "thinking",
+						value: "true"
+					},
+					{
+						id: "context",
+						value: "300k"
+					},
+					{
+						id: "effort",
+						value: "medium"
+					}
+				],
+				displayName: "Claude Fable 5.1"
+			},
+			{
+				params: [
+					{
+						id: "thinking",
+						value: "true"
+					},
+					{
+						id: "context",
+						value: "300k"
+					},
+					{
+						id: "effort",
+						value: "high"
+					}
+				],
+				displayName: "Claude Fable 5.1"
+			},
+			{
+				params: [
+					{
+						id: "thinking",
+						value: "true"
+					},
+					{
+						id: "context",
+						value: "300k"
+					},
+					{
+						id: "effort",
+						value: "xhigh"
+					}
+				],
+				displayName: "Claude Fable 5.1"
+			},
+			{
+				params: [
+					{
+						id: "thinking",
+						value: "true"
+					},
+					{
+						id: "context",
+						value: "300k"
+					},
+					{
+						id: "effort",
+						value: "max"
+					}
+				],
+				displayName: "Claude Fable 5.1"
+			},
+			{
+				params: [
+					{
+						id: "thinking",
+						value: "true"
+					},
+					{
+						id: "context",
+						value: "1m"
+					},
+					{
+						id: "effort",
+						value: "low"
+					}
+				],
+				displayName: "Claude Fable 5.1"
+			},
+			{
+				params: [
+					{
+						id: "thinking",
+						value: "true"
+					},
+					{
+						id: "context",
+						value: "1m"
+					},
+					{
+						id: "effort",
+						value: "medium"
+					}
+				],
+				displayName: "Claude Fable 5.1"
+			},
+			{
+				params: [
+					{
+						id: "thinking",
+						value: "true"
+					},
+					{
+						id: "context",
+						value: "1m"
+					},
+					{
+						id: "effort",
+						value: "high"
+					}
+				],
+				displayName: "Claude Fable 5.1",
+				isDefault: true
+			},
+			{
+				params: [
+					{
+						id: "thinking",
+						value: "true"
+					},
+					{
+						id: "context",
+						value: "1m"
+					},
+					{
+						id: "effort",
+						value: "xhigh"
+					}
+				],
+				displayName: "Claude Fable 5.1"
+			},
+			{
+				params: [
+					{
+						id: "thinking",
+						value: "true"
+					},
+					{
+						id: "context",
+						value: "1m"
+					},
+					{
+						id: "effort",
+						value: "max"
+					}
+				],
+				displayName: "Claude Fable 5.1"
 			}
 		]
 	},
@@ -5068,6 +5418,60 @@ export const FALLBACK_MODEL_ITEMS = [
 					}
 				],
 				displayName: "Gemini 3.7 Flash",
+				isDefault: true
+			}
+		]
+	},
+	{
+		id: "gemini-3.8-flash",
+		displayName: "Gemini 3.8 Flash",
+		parameters: [
+			{
+				id: "reasoning_effort",
+				displayName: "Effort",
+				values: [
+					{
+						value: "low",
+						displayName: "Low"
+					},
+					{
+						value: "medium",
+						displayName: "Medium"
+					},
+					{
+						value: "high",
+						displayName: "High"
+					}
+				]
+			}
+		],
+		variants: [
+			{
+				params: [
+					{
+						id: "reasoning_effort",
+						value: "low"
+					}
+				],
+				displayName: "Gemini 3.8 Flash Low"
+			},
+			{
+				params: [
+					{
+						id: "reasoning_effort",
+						value: "medium"
+					}
+				],
+				displayName: "Gemini 3.8 Flash Medium"
+			},
+			{
+				params: [
+					{
+						id: "reasoning_effort",
+						value: "high"
+					}
+				],
+				displayName: "Gemini 3.8 Flash High",
 				isDefault: true
 			}
 		]

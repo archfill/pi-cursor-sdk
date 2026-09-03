@@ -73,8 +73,8 @@ describe("package metadata cutover baselines", () => {
 	});
 
 	it("pins Cursor SDK exactly", () => {
-		expect(packageJson.dependencies["@cursor/sdk"]).toBe("1.0.27");
-		expect(lockPackageVersion("@cursor/sdk")).toBe("1.0.27");
+		expect(packageJson.dependencies["@cursor/sdk"]).toBe("1.0.30");
+		expect(lockPackageVersion("@cursor/sdk")).toBe("1.0.30");
 	});
 
 	it("keeps lockfile resolved URLs on the public npm registry", () => {

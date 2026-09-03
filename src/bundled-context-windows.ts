@@ -6,7 +6,6 @@
 // label when the completed SDK checkpoint reports a different effective limit.
 export const BUNDLED_CONTEXT_WINDOWS = {
 	"default": 200000,
-	"auto-smart": 200000,
 	"claude-fable-5@300k": 300000,
 	"claude-haiku-4-5": 200000,
 	"claude-opus-4-5": 200000,
