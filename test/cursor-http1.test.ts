@@ -44,16 +44,16 @@ describe("Cursor SDK HTTP/1.1 configuration", () => {
 		);
 		expect(sdkImplementation).toContain("h=yield this.getExecutor()");
 		const httpVersionSelection = sdkImplementation.indexOf(
-			'httpVersion:(n=ih,fh(n)||(null!==(r=(0,eh.it)())&&void 0!==r?r:gh())?"1.1":"2")',
+			'httpVersion:(n=uh,Th(n)||(null!==(r=(0,rh.it)())&&void 0!==r?r:hh())?"1.1":"2")',
 		);
 		expect(httpVersionSelection).toBeGreaterThan(-1);
 		const cacheKeyStart = sdkImplementation.indexOf("workingDirectory:e.workingDirectory,dirs:e.dirs");
-		const cacheKeyEnd = sdkImplementation.indexOf("JSON.stringify(ut(t))", cacheKeyStart);
+		const cacheKeyEnd = sdkImplementation.indexOf("JSON.stringify(ct(t))", cacheKeyStart);
 		expect(cacheKeyStart).toBeGreaterThan(-1);
 		expect(cacheKeyEnd).toBeGreaterThan(cacheKeyStart);
 		expect(sdkImplementation.slice(cacheKeyStart, cacheKeyEnd)).not.toContain("useHttp1ForAgent");
 		expect(sdkImplementation).toContain(
-			"t.refs-=1,!(t.refs>0||at.get(e)!==t)){at.delete(e)",
+			"t.refs-=1,!(t.refs>0||ut.get(e)!==t)){ut.delete(e)",
 		);
 	});
 

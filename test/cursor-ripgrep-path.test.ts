@@ -70,12 +70,12 @@ describe("Cursor ripgrep path", () => {
 		}
 	});
 
-	it("locks installed @cursor/sdk 1.0.30 Agent.create ripgrep contract", () => {
+	it("locks installed @cursor/sdk 1.0.31 Agent.create ripgrep contract", () => {
 		const require = createRequire(import.meta.url);
 		const sdkEntry = require.resolve("@cursor/sdk");
 		const sdkRoot = join(dirname(sdkEntry), "..", "..");
 		const sdkPackage = JSON.parse(readFileSync(join(sdkRoot, "package.json"), "utf8")) as { version: string };
-		expect(sdkPackage.version).toBe("1.0.30");
+		expect(sdkPackage.version).toBe("1.0.31");
 
 		// Agent.create lives in the local-runtime chunk (esm/357.js beside cjs entry's sibling esm).
 		const bundle = readFileSync(join(sdkRoot, "dist", "esm", "357.js"), "utf8");

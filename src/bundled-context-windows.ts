@@ -28,8 +28,6 @@ export const BUNDLED_CONTEXT_WINDOWS = {
 	"gpt-5.4-nano": 272000,
 	"gpt-5.5@272k": 272000,
 	"gpt-5.6@1m": 272000,
-	"grok-4.5": 256000,
-	"grok-4.5:slow": 256000,
 	"grok-4.6": 256000,
 	"kimi-k2.7-code": 200000,
 	"kimi-k3": 200000,

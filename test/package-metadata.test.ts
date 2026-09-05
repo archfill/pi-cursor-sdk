@@ -73,8 +73,8 @@ describe("package metadata cutover baselines", () => {
 	});
 
 	it("pins Cursor SDK exactly", () => {
-		expect(packageJson.dependencies["@cursor/sdk"]).toBe("1.0.30");
-		expect(lockPackageVersion("@cursor/sdk")).toBe("1.0.30");
+		expect(packageJson.dependencies["@cursor/sdk"]).toBe("1.0.31");
+		expect(lockPackageVersion("@cursor/sdk")).toBe("1.0.31");
 	});
 
 	it("keeps lockfile resolved URLs on the public npm registry", () => {
@@ -214,10 +214,8 @@ describe("package metadata cutover baselines", () => {
 
 	it("keeps Grok UX examples aligned with the generated Cursor catalog", () => {
 		const spec = readFileSync(join(process.cwd(), "docs/cursor-model-ux-spec.md"), "utf8");
-		const grok45 = FALLBACK_MODEL_ITEMS.find((item) => item.id === "grok-4.5");
 		const grok46 = FALLBACK_MODEL_ITEMS.find((item) => item.id === "grok-4.6");
 
-		expect(grok45?.parameters?.map((parameter) => parameter.id)).toEqual(["effort", "fast"]);
 		expect(grok46?.parameters?.map((parameter) => parameter.id)).toEqual(["effort", "fast"]);
 		expect(grok46?.parameters?.find((parameter) => parameter.id === "effort")?.values?.map((value) => value.value)).toEqual([
 			"low",
@@ -226,9 +224,9 @@ describe("package metadata cutover baselines", () => {
 			"xhigh",
 		]);
 		expect(FALLBACK_MODEL_ITEMS.some((item) => item.id === "grok-4.3")).toBe(false);
-		expect(spec).toContain("### `grok-4.5`");
 		expect(spec).toContain("### `grok-4.6`");
 		expect(spec).not.toContain("grok-4.3");
+		expect(spec).not.toContain("grok-4.5");
 	});
 
 	it("keeps @earendil-works peer dependency ranges unpinned per pi package guidance", () => {

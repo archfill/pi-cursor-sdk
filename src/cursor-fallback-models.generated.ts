@@ -1,6 +1,6 @@
 import type { ModelListItem } from "@cursor/sdk";
 
-// Generated with @cursor/sdk@1.0.30 from 38 Cursor models.
+// Generated with @cursor/sdk@1.0.31 from 37 Cursor models.
 // Refresh with: npm run refresh:cursor-snapshots -- --write
 // Do not add secrets; this file stores public model metadata only.
 export const FALLBACK_MODEL_ITEMS = [
@@ -6995,11 +6995,45 @@ export const FALLBACK_MODEL_ITEMS = [
 					},
 					{
 						id: "reasoning",
+						value: "none"
+					},
+					{
+						id: "fast",
+						value: "true"
+					}
+				],
+				displayName: "GPT-5.6 Luna"
+			},
+			{
+				params: [
+					{
+						id: "context",
+						value: "1m"
+					},
+					{
+						id: "reasoning",
 						value: "low"
 					},
 					{
 						id: "fast",
 						value: "false"
+					}
+				],
+				displayName: "GPT-5.6 Luna"
+			},
+			{
+				params: [
+					{
+						id: "context",
+						value: "1m"
+					},
+					{
+						id: "reasoning",
+						value: "low"
+					},
+					{
+						id: "fast",
+						value: "true"
 					}
 				],
 				displayName: "GPT-5.6 Luna"
@@ -7030,11 +7064,45 @@ export const FALLBACK_MODEL_ITEMS = [
 					},
 					{
 						id: "reasoning",
+						value: "medium"
+					},
+					{
+						id: "fast",
+						value: "true"
+					}
+				],
+				displayName: "GPT-5.6 Luna"
+			},
+			{
+				params: [
+					{
+						id: "context",
+						value: "1m"
+					},
+					{
+						id: "reasoning",
 						value: "high"
 					},
 					{
 						id: "fast",
 						value: "false"
+					}
+				],
+				displayName: "GPT-5.6 Luna"
+			},
+			{
+				params: [
+					{
+						id: "context",
+						value: "1m"
+					},
+					{
+						id: "reasoning",
+						value: "high"
+					},
+					{
+						id: "fast",
+						value: "true"
 					}
 				],
 				displayName: "GPT-5.6 Luna"
@@ -7064,11 +7132,45 @@ export const FALLBACK_MODEL_ITEMS = [
 					},
 					{
 						id: "reasoning",
+						value: "xhigh"
+					},
+					{
+						id: "fast",
+						value: "true"
+					}
+				],
+				displayName: "GPT-5.6 Luna"
+			},
+			{
+				params: [
+					{
+						id: "context",
+						value: "1m"
+					},
+					{
+						id: "reasoning",
 						value: "max"
 					},
 					{
 						id: "fast",
 						value: "false"
+					}
+				],
+				displayName: "GPT-5.6 Luna"
+			},
+			{
+				params: [
+					{
+						id: "context",
+						value: "1m"
+					},
+					{
+						id: "reasoning",
+						value: "max"
+					},
+					{
+						id: "fast",
+						value: "true"
 					}
 				],
 				displayName: "GPT-5.6 Luna"
@@ -7373,11 +7475,45 @@ export const FALLBACK_MODEL_ITEMS = [
 					},
 					{
 						id: "reasoning",
+						value: "none"
+					},
+					{
+						id: "fast",
+						value: "true"
+					}
+				],
+				displayName: "GPT-5.6 Sol"
+			},
+			{
+				params: [
+					{
+						id: "context",
+						value: "1m"
+					},
+					{
+						id: "reasoning",
 						value: "low"
 					},
 					{
 						id: "fast",
 						value: "false"
+					}
+				],
+				displayName: "GPT-5.6 Sol"
+			},
+			{
+				params: [
+					{
+						id: "context",
+						value: "1m"
+					},
+					{
+						id: "reasoning",
+						value: "low"
+					},
+					{
+						id: "fast",
+						value: "true"
 					}
 				],
 				displayName: "GPT-5.6 Sol"
@@ -7408,11 +7544,45 @@ export const FALLBACK_MODEL_ITEMS = [
 					},
 					{
 						id: "reasoning",
+						value: "medium"
+					},
+					{
+						id: "fast",
+						value: "true"
+					}
+				],
+				displayName: "GPT-5.6 Sol"
+			},
+			{
+				params: [
+					{
+						id: "context",
+						value: "1m"
+					},
+					{
+						id: "reasoning",
 						value: "high"
 					},
 					{
 						id: "fast",
 						value: "false"
+					}
+				],
+				displayName: "GPT-5.6 Sol"
+			},
+			{
+				params: [
+					{
+						id: "context",
+						value: "1m"
+					},
+					{
+						id: "reasoning",
+						value: "high"
+					},
+					{
+						id: "fast",
+						value: "true"
 					}
 				],
 				displayName: "GPT-5.6 Sol"
@@ -7442,11 +7612,45 @@ export const FALLBACK_MODEL_ITEMS = [
 					},
 					{
 						id: "reasoning",
+						value: "xhigh"
+					},
+					{
+						id: "fast",
+						value: "true"
+					}
+				],
+				displayName: "GPT-5.6 Sol"
+			},
+			{
+				params: [
+					{
+						id: "context",
+						value: "1m"
+					},
+					{
+						id: "reasoning",
 						value: "max"
 					},
 					{
 						id: "fast",
 						value: "false"
+					}
+				],
+				displayName: "GPT-5.6 Sol"
+			},
+			{
+				params: [
+					{
+						id: "context",
+						value: "1m"
+					},
+					{
+						id: "reasoning",
+						value: "max"
+					},
+					{
+						id: "fast",
+						value: "true"
 					}
 				],
 				displayName: "GPT-5.6 Sol"
@@ -7748,11 +7952,45 @@ export const FALLBACK_MODEL_ITEMS = [
 					},
 					{
 						id: "reasoning",
+						value: "none"
+					},
+					{
+						id: "fast",
+						value: "true"
+					}
+				],
+				displayName: "GPT-5.6 Terra"
+			},
+			{
+				params: [
+					{
+						id: "context",
+						value: "1m"
+					},
+					{
+						id: "reasoning",
 						value: "low"
 					},
 					{
 						id: "fast",
 						value: "false"
+					}
+				],
+				displayName: "GPT-5.6 Terra"
+			},
+			{
+				params: [
+					{
+						id: "context",
+						value: "1m"
+					},
+					{
+						id: "reasoning",
+						value: "low"
+					},
+					{
+						id: "fast",
+						value: "true"
 					}
 				],
 				displayName: "GPT-5.6 Terra"
@@ -7783,11 +8021,45 @@ export const FALLBACK_MODEL_ITEMS = [
 					},
 					{
 						id: "reasoning",
+						value: "medium"
+					},
+					{
+						id: "fast",
+						value: "true"
+					}
+				],
+				displayName: "GPT-5.6 Terra"
+			},
+			{
+				params: [
+					{
+						id: "context",
+						value: "1m"
+					},
+					{
+						id: "reasoning",
 						value: "high"
 					},
 					{
 						id: "fast",
 						value: "false"
+					}
+				],
+				displayName: "GPT-5.6 Terra"
+			},
+			{
+				params: [
+					{
+						id: "context",
+						value: "1m"
+					},
+					{
+						id: "reasoning",
+						value: "high"
+					},
+					{
+						id: "fast",
+						value: "true"
 					}
 				],
 				displayName: "GPT-5.6 Terra"
@@ -7817,6 +8089,23 @@ export const FALLBACK_MODEL_ITEMS = [
 					},
 					{
 						id: "reasoning",
+						value: "xhigh"
+					},
+					{
+						id: "fast",
+						value: "true"
+					}
+				],
+				displayName: "GPT-5.6 Terra"
+			},
+			{
+				params: [
+					{
+						id: "context",
+						value: "1m"
+					},
+					{
+						id: "reasoning",
 						value: "max"
 					},
 					{
@@ -7825,124 +8114,23 @@ export const FALLBACK_MODEL_ITEMS = [
 					}
 				],
 				displayName: "GPT-5.6 Terra"
-			}
-		]
-	},
-	{
-		id: "grok-4.5",
-		displayName: "Cursor Grok 4.5",
-		parameters: [
-			{
-				id: "effort",
-				displayName: "Effort",
-				values: [
-					{
-						value: "low",
-						displayName: "Low"
-					},
-					{
-						value: "medium",
-						displayName: "Medium"
-					},
-					{
-						value: "high",
-						displayName: "High"
-					}
-				]
-			},
-			{
-				id: "fast",
-				displayName: "Fast",
-				values: [
-					{
-						value: "false"
-					},
-					{
-						value: "true",
-						displayName: "Fast​"
-					}
-				]
-			}
-		],
-		variants: [
-			{
-				params: [
-					{
-						id: "effort",
-						value: "low"
-					},
-					{
-						id: "fast",
-						value: "false"
-					}
-				],
-				displayName: "Cursor Grok 4.5"
 			},
 			{
 				params: [
 					{
-						id: "effort",
-						value: "low"
+						id: "context",
+						value: "1m"
+					},
+					{
+						id: "reasoning",
+						value: "max"
 					},
 					{
 						id: "fast",
 						value: "true"
 					}
 				],
-				displayName: "Cursor Grok 4.5"
-			},
-			{
-				params: [
-					{
-						id: "effort",
-						value: "medium"
-					},
-					{
-						id: "fast",
-						value: "false"
-					}
-				],
-				displayName: "Cursor Grok 4.5"
-			},
-			{
-				params: [
-					{
-						id: "effort",
-						value: "medium"
-					},
-					{
-						id: "fast",
-						value: "true"
-					}
-				],
-				displayName: "Cursor Grok 4.5"
-			},
-			{
-				params: [
-					{
-						id: "effort",
-						value: "high"
-					},
-					{
-						id: "fast",
-						value: "false"
-					}
-				],
-				displayName: "Cursor Grok 4.5"
-			},
-			{
-				params: [
-					{
-						id: "effort",
-						value: "high"
-					},
-					{
-						id: "fast",
-						value: "true"
-					}
-				],
-				displayName: "Cursor Grok 4.5",
-				isDefault: true
+				displayName: "GPT-5.6 Terra"
 			}
 		]
 	},

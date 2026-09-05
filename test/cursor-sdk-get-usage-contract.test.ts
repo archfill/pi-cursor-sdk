@@ -8,9 +8,9 @@ const require = createRequire(import.meta.url);
 const sdkRoot = resolveInstalledPackageRoot("@cursor/sdk");
 const installedSdkVersion = readInstalledPackageVersion("@cursor/sdk");
 
-describe("installed Cursor SDK 1.0.30 getUsage contract", () => {
+describe("installed Cursor SDK 1.0.31 getUsage contract", () => {
 	it("exposes billed AgentUsage with usage totals and runId-keyed runs", () => {
-		expect(installedSdkVersion).toBe("1.0.30");
+		expect(installedSdkVersion).toBe("1.0.31");
 
 		const agentTypes = readFileSync(join(sdkRoot, "dist/esm/agent.d.ts"), "utf8");
 		expect(agentTypes).toContain("getUsage(options?: GetUsageOptions): Promise<AgentUsage>");
